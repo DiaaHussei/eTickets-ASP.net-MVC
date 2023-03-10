@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityRole
+<h4 class="panel-body ">@TempData["Add"]</h4>
+    <div class="bg-primary panel-body"><h4>Edit Role</h4></div> 
+<div asp-validation-summary="All" class="text-danger"></div> 
+<h6 class="bg-info panel-body">Add To </h6> 
+<form asp-action="AddRole" method="post" class="table"> 
+ 
+    <div class="">
+        <input asp-for="Name" class="form-control" />
+        <label asp-for="Name"></label>
+        <span asp-validation-for"Name" class="alert-danger"></span>
+
+    </div>
+
+ <button type="submit"   asp-route-id="subUser"  class="btn btn-primary">Save</button> 
+ <a asp-action="User" class="btn btn-default">Cancel</a> 
+ </form>

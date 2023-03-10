@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "List of all users";
+}
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <p>
+            <h4>List of all users</h4>
+        </p>
+
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.NormalizedUserName)</th>
+                    <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>Role</th>
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.NormalizedUserName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Email)
+
+                    </td>
+                        <td class="align-middle">
+                        
+                    </td>
+                    @if(User.Identity.IsAuthenticated && User.IsInRole("Admin")){
+                    <td class="align-middle" >
+                         @using (Html.BeginForm("DeleteUser", "Account", FormMethod.Post, new { @id="Form1" }))
+
+                            {
+                                <input class="btn btn-danger text-white"  type="submit" id="delete" asp-action="Delete" value="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>
+                            }
+                        </td>
+                        }
+                </tr>
+                }
+            </tbody>
+
+        </table>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div style=" right:25px; bottom:25px;" class="text-white">
+                <a asp-controller="Account" asp-action="AddRoles" class="btn btn-success"> <i class="bi bi-plus-circle"></i>Add New</a>
+
+      </div>
+        }
+    </div>
+</div>
+    
+          <script type="text/javascript">
+    $('.delete').click(function(e){
+        var result = confirm("Are you sure you want to delete this user?");
+        if(!result) {
+            e.preventDefault();
+        }
+    });
+</script>
+      
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("submit", "#Form1", function () {
+            return confirm("Do you want to Delete user");
+        });
+    </script>
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert('@ViewBag.Message');
+            };
+        </script>
+    }
